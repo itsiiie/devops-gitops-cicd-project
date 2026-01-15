@@ -121,16 +121,18 @@ Learning is prioritized **without unnecessary spending**.
 
 ## 📁 Repository Structure (Evolving Over Time)
 
+```text
 devops-gitops-cicd-project/
 │
-├── app/ # Application source code (added later)
-├── ci/ # Jenkins pipelines and CI scripts
-├── cd/ # GitOps & Argo CD manifests
-├── infrastructure/ # Terraform and Kubernetes setup
-├── observability/ # Prometheus & Grafana configurations
+├── app/                  # Application source code (added later)
+├── ci/                   # Jenkins pipelines and CI scripts
+├── cd/                   # GitOps & Argo CD manifests
+├── infrastructure/       # Terraform and Kubernetes setup
+├── observability/        # Prometheus & Grafana configurations
 ├── docs/
-│ └── architecture/ # Architecture diagrams
+│   └── architecture/     # Architecture diagrams
 └── README.md
+
 
 Folders are introduced **only when required**, keeping the repository clean and understandable.
 
@@ -178,5 +180,6 @@ This repository is treated as a **long-term learning system**, not a tutorial du
 
 This repository grows continuously as new layers are added, refined, and documented.
 
-The goal is not speed —  
+The goal is not speed —
 the goal is **depth, clarity, and correctness**.
+```
