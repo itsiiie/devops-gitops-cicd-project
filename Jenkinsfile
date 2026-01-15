@@ -17,10 +17,12 @@ pipeline {
         stage('Branch Info') {
             steps {
                 sh '''
-                  echo "Git info:"
+                  echo "Git version:"
                   git --version
-                  echo "Current branch:"
+
+                  echo "Branch (detached HEAD in CI is normal):"
                   git rev-parse --abbrev-ref HEAD || true
+
                   echo "Commit SHA:"
                   git rev-parse --short HEAD
                 '''
@@ -30,16 +32,28 @@ pipeline {
         stage('Lint (All Branches)') {
             steps {
                 sh '''
-                  echo "=== Lint Stage ==="
-                  echo "Ensuring Python & pip are available"
-                  python3 --version
-                  pip3 --version || sudo apt-get update && sudo apt-get install -y python3-pip
+                  echo "=== LINT STAGE ==="
 
-                  echo "Installing flake8 locally for CI user"
-                  pip3 install --user flake8
+                  echo "Ensuring Python is available"
+                  python3 --version
+
+                  echo "Creating virtual environment for CI"
+                  python3 -m venv .ci-venv
+
+                  echo "Activating virtual environment"
+                  . .ci-venv/bin/activate
+
+                  echo "Upgrading pip"
+                  pip install --upgrade pip
+
+                  echo "Installing flake8 inside venv"
+                  pip install flake8
 
                   echo "Running flake8"
-                  ~/.local/bin/flake8 app/backend
+                  flake8 app/backend
+
+                  echo "Deactivating venv"
+                  deactivate
                 '''
             }
         }
@@ -50,8 +64,8 @@ pipeline {
             }
             steps {
                 sh '''
-                  echo "=== Main Branch Extra Checks ==="
-                  echo "Running additional validations for main"
+                  echo "=== MAIN BRANCH EXTRA CHECKS ==="
+                  echo "Additional validations for main branch"
                   sleep 2
                 '''
             }
@@ -64,6 +78,9 @@ pipeline {
         }
         failure {
             echo '❌ CI FAILED — fix issues before merging'
+        }
+        always {
+            sh 'rm -rf .ci-venv || true'
         }
     }
 }
