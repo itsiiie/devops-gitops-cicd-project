@@ -13,21 +13,31 @@ pipeline {
             }
         }
 
-        stage('CI Info') {
+        stage('Branch Info') {
             steps {
                 sh '''
                   echo "Branch: $(git rev-parse --abbrev-ref HEAD)"
-                  echo "Commit: $(git rev-parse --short HEAD)"
                 '''
             }
         }
 
-        stage('Sanity Checks') {
+        stage('Lint (All Branches)') {
             steps {
                 sh '''
-                  echo "Running sanity checks..."
-                  hostname
-                  whoami
+                  echo "Running flake8 lint..."
+                  flake8 app/backend
+                '''
+            }
+        }
+
+        stage('Extra Checks (main only)') {
+            when {
+                branch 'main'
+            }
+            steps {
+                sh '''
+                  echo "Running stricter checks for main branch"
+                  sleep 2
                 '''
             }
         }
@@ -35,10 +45,10 @@ pipeline {
 
     post {
         success {
-            echo 'CI pipeline completed successfully'
+            echo 'CI PASSED'
         }
         failure {
-            echo 'CI pipeline failed'
+            echo 'CI FAILED — fix issues before merging'
         }
     }
 }
