@@ -183,7 +183,3 @@ This repository grows continuously as new layers are added, refined, and documen
 
 The goal is not speed —
 the goal is **depth, clarity, and correctness**.
-
-```
-
-```
