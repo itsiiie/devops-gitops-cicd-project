@@ -32,12 +32,18 @@ pipeline {
         stage('Lint (All Branches)') {
             steps {
                 sh '''
+                  set -e
+
                   echo "=== LINT STAGE ==="
 
-                  echo "Ensuring Python is available"
+                  echo "Python version:"
                   python3 --version
 
-                  echo "Creating virtual environment for CI"
+                  echo "Ensuring venv support is available"
+                  sudo apt-get update
+                  sudo apt-get install -y python3-venv
+
+                  echo "Creating CI virtual environment"
                   python3 -m venv .ci-venv
 
                   echo "Activating virtual environment"
@@ -46,13 +52,13 @@ pipeline {
                   echo "Upgrading pip"
                   pip install --upgrade pip
 
-                  echo "Installing flake8 inside venv"
+                  echo "Installing flake8"
                   pip install flake8
 
                   echo "Running flake8"
                   flake8 app/backend
 
-                  echo "Deactivating venv"
+                  echo "Deactivating virtual environment"
                   deactivate
                 '''
             }
