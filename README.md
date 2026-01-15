@@ -133,6 +133,7 @@ devops-gitops-cicd-project/
 │   └── architecture/     # Architecture diagrams
 └── README.md
 
+```
 
 Folders are introduced **only when required**, keeping the repository clean and understandable.
 
@@ -182,4 +183,7 @@ This repository grows continuously as new layers are added, refined, and documen
 
 The goal is not speed —
 the goal is **depth, clarity, and correctness**.
+
+```
+
 ```
