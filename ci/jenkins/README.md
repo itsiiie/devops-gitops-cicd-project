@@ -1,12 +1,16 @@
-# Jenkins CI Foundation
+## Jenkinsfile-Based Pipeline
 
-This phase sets up Jenkins using a controller–agent architecture.
+CI logic is stored inside the repository using a Jenkinsfile.
 
-## Key Points
+Benefits:
 
-- Jenkins controller runs locally in Docker
-- Jenkins agent runs on Multipass (Ubuntu)
-- Communication uses SSH
-- All builds execute on agents, not on controller
+- Version-controlled pipeline
+- Reviewed through Git
+- Reproducible CI behavior
+- Jenkins remains stateless
 
-This mirrors real-world production Jenkins architectures.
+The pipeline currently performs:
+
+- Source checkout
+- Basic CI metadata logging
+- Sanity checks
